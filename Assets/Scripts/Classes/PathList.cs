@@ -13,35 +13,35 @@ using System.Collections.Generic;
 
 public class PathList
 {
-    public GameObject _path;
-    public bool _colored;
+  public GameObject _path;
+  public bool _colored;
 
-    private Material _pathMat;
+  private Material _pathMat;
 
-    public PathList(GameObject newPlane)
+  public PathList(GameObject newPlane)
+  {
+    _path = newPlane;
+    SetColor();
+  }
+
+  private void SetColor()
+  {
+    _pathMat = _path.GetComponent<Renderer>().material;
+
+    if (Random.Range(0, 2) == 1)
     {
-        _path = newPlane;
-        SetColor();
+      _colored = true;
+      _pathMat.SetColor(_colored);
     }
-
-    private void SetColor()
+    else
     {
-        _pathMat = _path.GetComponent<Renderer>().material;
-
-        if(Random.Range(0, 2) == 1)
-        {
-            _colored = true;
-            _pathMat.SetColor(_colored);
-        }
-        else
-        {
-            _colored = false;
-            _pathMat.SetColor(_colored);
-        }
+      _colored = false;
+      _pathMat.SetColor(_colored);
     }
+  }
 
-    private void SetDirection()
-    {
+  private void SetDirection()
+  {
 
-    }
+  }
 }
