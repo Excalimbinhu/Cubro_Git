@@ -6,18 +6,15 @@ public class PlayerController : MonoBehaviour
 {
   public GameController _gameCtrlScr;
   public Material _playerMat;
+  
   private int _nextMove = 1;
-
   private bool _isColored = false;
-
-  private void Awake()
-  {
-    _playerMat = GetComponent<Renderer>().material;
-  }
 
   void Start()
   {
-    _isColored = _playerMat.ChangeColor(_isColored);
+    _isColored = _gameCtrlScr._pathList[0]._colored;
+    _playerMat = GetComponent<Renderer>().material;
+    _playerMat.SetColor(_isColored);
   }
 
   void Update()
@@ -55,10 +52,6 @@ public class PlayerController : MonoBehaviour
       case "StandardPath":
         if (_gameCtrlScr.getPathColor(_nextMove - 1) != _isColored)
           Destroy(gameObject);
-        else
-        {
-          Debug.Log("VAI MININU");
-        }
         break;
     }
   }

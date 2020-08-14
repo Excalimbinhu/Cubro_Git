@@ -2,29 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-/*
- * Lembrete IMPORTANTE
- * 
- * Reestruturar GameController de acordo com o PathList
- */
-
 public class GameController : MonoBehaviour
 {
   public GameObject[] _planePrefab = new GameObject[5];
-  public bool _initColor;
+  public PathList[] _pathList = new PathList[9];
 
-  private PathList[] _pathList = new PathList[9];
-  private Transform _lastPosition;
   private bool _right = true;
   private int _pathCtrl = 0;
   private int _lastPath = 0;
 
-  private void Start()
+  private void Awake()
   {
     _pathList[_pathCtrl] = new PathList(GameObject.Find("Plane"));
     StartPath();
   }
 
+  
   public void StartPath()
   {
     int changeSide;
