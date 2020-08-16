@@ -1,6 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -27,8 +26,8 @@ public class PlayerController : MonoBehaviour
     if (_nextMove >= 9)
       _nextMove = 0;
 
-    Vector3 nextPath = _gameCtrlScr.getNextPath(_nextMove);
-    transform.position = new Vector3(nextPath.x, 1, nextPath.z);
+    Vector3 nextPath = _gameCtrlScr.GetNextPath(_nextMove);
+    transform.position = new Vector3(nextPath.x, 0.8f, nextPath.z);
     _nextMove++;
   }
 
@@ -50,8 +49,13 @@ public class PlayerController : MonoBehaviour
     switch (coll.gameObject.tag)
     {
       case "StandardPath":
-        if (_gameCtrlScr.getPathColor(_nextMove - 1) != _isColored)
-          Destroy(gameObject);
+        if (_gameCtrlScr.GetPathColor(_nextMove - 1) != _isColored)
+        {
+          PlayerPrefs.SetInt("runScore", _gameCtrlScr._score);
+          SceneManager.LoadScene(0);
+        }
+        else
+          _gameCtrlScr.AddScore();
         break;
     }
   }
