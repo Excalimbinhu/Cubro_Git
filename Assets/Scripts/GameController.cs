@@ -1,18 +1,20 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class GameController : MonoBehaviour
 {
   public GameObject[] _planePrefab = new GameObject[5];
   public PathList[] _pathList = new PathList[9];
+  public int _score = -1;
 
+  private Text _scoreTxt;
   private bool _right = true;
   private int _pathCtrl = 0;
   private int _lastPath = 0;
 
   private void Awake()
   {
+    _scoreTxt = GameObject.Find("ScoreTxt").GetComponent<Text>();
     _pathList[_pathCtrl] = new PathList(GameObject.Find("Plane"));
     StartPath();
   }
@@ -55,7 +57,6 @@ public class GameController : MonoBehaviour
 
     DeletePath();
     SaveAndBuildPath(_pathList[_pathCtrl].SetDirection(_right));
-
   }
 
   public void DeletePath()
@@ -68,13 +69,19 @@ public class GameController : MonoBehaviour
     _lastPath++;
   }
 
-  public bool getPathColor(int listID)
+  public bool GetPathColor(int listID)
   {
     return _pathList[listID]._colored;
   }
 
-  public Vector3 getNextPath(int listID)
+  public Vector3 GetNextPath(int listID)
   {
     return _pathList[listID]._path.transform.position;
+  }
+
+  public void AddScore()
+  {
+    _score++;
+    _scoreTxt.text = _score.ToString();
   }
 }
