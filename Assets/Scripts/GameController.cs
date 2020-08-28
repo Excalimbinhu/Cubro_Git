@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameController : MonoBehaviour
@@ -19,7 +20,6 @@ public class GameController : MonoBehaviour
     StartPath();
   }
 
-  
   public void StartPath()
   {
     int changeSide;
@@ -83,5 +83,11 @@ public class GameController : MonoBehaviour
   {
     _score++;
     _scoreTxt.text = _score.ToString();
+  }
+
+  public void OnDeath()
+  {
+    PlayerPrefs.SetInt("runScore", _score);
+    SceneManager.LoadScene(0);
   }
 }

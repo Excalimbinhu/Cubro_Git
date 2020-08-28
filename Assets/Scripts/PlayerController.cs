@@ -1,18 +1,20 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
   public GameController _gameCtrlScr;
-  public Material _playerMat;
-  
+  public TimeBarController _timeBarScr;
+
+  private Material _playerMat;
+  private AudioSource _jumpSound;
   private int _nextMove = 1;
   private bool _isColored = false;
 
   void Start()
   {
-    _isColored = _gameCtrlScr._pathList[0]._colored;
     _playerMat = GetComponent<Renderer>().material;
+    _jumpSound = GetComponent<AudioSource>();
+    _isColored = _gameCtrlScr._pathList[0]._colored;
     _playerMat.SetColor(_isColored);
   }
 
@@ -23,6 +25,7 @@ public class PlayerController : MonoBehaviour
 
   public void PlayerMovement()
   {
+    _jumpSound.Play();
     if (_nextMove >= 9)
       _nextMove = 0;
 
@@ -46,17 +49,18 @@ public class PlayerController : MonoBehaviour
 
   private void OnCollisionEnter(Collision coll)
   {
-    switch (coll.gameObject.tag)
+    if(coll.gameObject.tag.Contains("Path"))
     {
-      case "StandardPath":
-        if (_gameCtrlScr.GetPathColor(_nextMove - 1) != _isColored)
-        {
-          PlayerPrefs.SetInt("runScore", _gameCtrlScr._score);
-          SceneManager.LoadScene(0);
-        }
-        else
-          _gameCtrlScr.AddScore();
-        break;
+      _timeBarScr.AddTime();
+      switch (coll.gameObject.tag)
+      {
+        case "StandardPath":
+          if (_gameCtrlScr.GetPathColor(_nextMove - 1) != _isColored)
+            _gameCtrlScr.OnDeath();
+          else
+            _gameCtrlScr.AddScore();
+          break;
+      }
     }
   }
 }
