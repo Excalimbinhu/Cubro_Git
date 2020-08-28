@@ -3,7 +3,7 @@
 public static class ExtensionMethods
 {
   public static Color _color01 = new Color(1f, 0.5f, 0f, 1f);
-  public static Color _color02 = new Color(1f, 0.9f, 0.4f, 1f);
+  public static Color _color02 = new Color(1f, 0.85f, 0.6f, 1f);
   public static GameObject _lastPath;
 
   public static bool ChangeColor(this Material playerMat, bool colored)
